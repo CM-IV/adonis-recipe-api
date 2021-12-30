@@ -1,0 +1,36 @@
+{
+  "typescript": true,
+  "commands": [
+    "./commands",
+    "@adonisjs/core/build/commands/index.js",
+    "@adonisjs/repl/build/commands",
+    "@adonisjs/lucid/build/commands"
+  ],
+  "exceptionHandlerNamespace": "App/Exceptions/Handler",
+  "directories": {
+    "start": "./app/api/middleware"
+  },
+  "namespaces": {
+    "httpControllers": "App/api/controllers",
+    "models": "App/api/models",
+    "middleware": "App/api/middleware"
+  },
+  "aliases": {
+    "App": "app",
+    "Config": "config",
+    "Database": "database",
+    "Contracts": "contracts"
+  },
+  "preloads": [
+    "./app/api/routes/routing",
+    "./app/api/middleware/kernel"
+  ],
+  "providers": [
+    "./providers/AppProvider",
+    "@adonisjs/core",
+    "@adonisjs/lucid"
+  ],
+  "aceProviders": [
+    "@adonisjs/repl"
+  ]
+}
