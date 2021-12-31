@@ -10,6 +10,16 @@ import Route from "@ioc:Adonis/Core/Route";
 import HealthCheck from "@ioc:Adonis/Core/HealthCheck";
 
 Route.group(() => {
+  //Get by UUID
+  //Get all and paginate result
+  //Create new recipe
+  Route.resource("/recipes", "RecipesController").only([
+    "show",
+    "index",
+    "store",
+  ]);
+
+  /*     BEGIN TESTS      */
   //Health check
   //Make sure to configure .env values
   Route.get("health", async ({ response }) => {
@@ -18,7 +28,7 @@ Route.group(() => {
     return report.healthy ? response.ok(report) : response.badRequest(report);
   });
 
-  //Test
+  //OK
   Route.get("test", async ({ response }) => {
     response.json({
       message: "ok",
@@ -26,4 +36,5 @@ Route.group(() => {
 
     return response.status(200);
   });
+  /*     END TESTS      */
 }).prefix("/api");
