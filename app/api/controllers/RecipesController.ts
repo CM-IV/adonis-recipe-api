@@ -5,7 +5,6 @@ import { schema } from "@ioc:Adonis/Core/Validator";
 
 export default class RecipesController {
   public async show({ params }: HttpContextContract) {
-    // Logger.info(JSON.stringify(recipe));
 
     return Recipe.findOrFail(params.id);
   }
