@@ -1,11 +1,16 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
+// import { v4 as uuidv4 } from "uuid";
 import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Recipe from './Recipe'
 
 export default class User extends BaseModel {
+
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @column()
+  public username: string
 
   @column()
   public email: string
@@ -22,7 +27,9 @@ export default class User extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Recipe)
+  @hasMany(() => Recipe, {
+    foreignKey: "user_id"
+  })
   public recipes: HasMany<typeof Recipe>
 
   @beforeSave()

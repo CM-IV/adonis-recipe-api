@@ -17,7 +17,8 @@ export default class RecipesController {
     return Recipe.query().paginate(page, limit);
   }
 
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, auth }: HttpContextContract) {
+
     const recipeSchema = schema.create({
       title: schema.string(),
       description: schema.string(),
@@ -27,7 +28,15 @@ export default class RecipesController {
 
     const payload = await request.validate({ schema: recipeSchema });
 
-    await Recipe.create(payload);
+    await Recipe.create({
+
+      user_id: auth.user!.id,
+      title: payload.title,
+      description: payload.description,
+      steps: payload.steps,
+      nutrition: payload.nutrition
+
+    });
 
     return response.created();
   }

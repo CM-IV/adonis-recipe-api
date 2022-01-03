@@ -1,12 +1,13 @@
 import { DateTime } from "luxon";
-import { v4 as uuidv4 } from "uuid";
-import { BaseModel, beforeCreate, column } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import User from "./User";
 
 export default class Recipe extends BaseModel {
-  public static selfAssignPrimaryKey = true;
-
   @column({ isPrimary: true })
-  public id: string;
+  public id: number;
+
+  @column()
+  public user_id: string
 
   @column()
   public title: string;
@@ -20,14 +21,14 @@ export default class Recipe extends BaseModel {
   @column()
   public nutrition: string;
 
-  @beforeCreate()
-  public static assignUuid(recipe: Recipe) {
-    recipe.id = uuidv4();
-  }
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
+
+  @belongsTo(() => User, {
+    localKey: "user_id",
+  })
+  public user: BelongsTo<typeof User>;
 }

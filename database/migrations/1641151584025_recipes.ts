@@ -5,19 +5,12 @@ export default class Recipes extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid("id").primary();
-      table
-        .integer("user_id")
-        .unsigned()
-        .references("users.id")
-        .onDelete("CASCADE")
-      table.string("title", 150);
-      table.string("description", 500);
-      table.string("steps", 500);
-      table.string("nutrition", 500);
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
+      table.increments("id").primary();
+      table.uuid("user_id").references("users.id").onDelete("CASCADE");
+      table.string("title", 150).notNullable();
+      table.string("description", 500).notNullable();
+      table.string("steps", 500).notNullable();
+      table.string("nutrition", 500).notNullable();
       table.timestamp("created_at", { useTz: true });
       table.timestamp("updated_at", { useTz: true });
     });

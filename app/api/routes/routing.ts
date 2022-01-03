@@ -10,13 +10,32 @@ import Route from "@ioc:Adonis/Core/Route";
 import HealthCheck from "@ioc:Adonis/Core/HealthCheck";
 
 Route.group(() => {
+  Route.group(() => {
+    //authenticated api routes
+    //Logout
+    Route.post("/logout", "AuthController.logout")
+
+    //Create recipe
+    //Update recipe by UUID
+    //Delete recipe by UUID
+    Route.resource("/recipes", "RecipesController").only([
+      "store",
+      "update",
+      "destroy"
+    ]);
+
+  }).middleware("auth");
+
+  //Register
+  //Login
+  Route.post("/register", "AuthController.register");
+  Route.post("/login", "AuthController.login")
+
   //Get by UUID
   //Get all and paginate result
-  //Create new recipe
   Route.resource("/recipes", "RecipesController").only([
     "show",
-    "index",
-    "store",
+    "index"
   ]);
 
   /*     BEGIN TESTS      */
