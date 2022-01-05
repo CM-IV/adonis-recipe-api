@@ -6,7 +6,9 @@ import { schema } from "@ioc:Adonis/Core/Validator";
 export default class RecipesController {
   public async show({ params }: HttpContextContract) {
 
-    return Recipe.findOrFail(params.id);
+    const recipe = await Recipe.findOrFail(params.id);
+
+    return recipe.toJSON();
   }
 
   public async index({ request }: HttpContextContract) {
@@ -14,7 +16,9 @@ export default class RecipesController {
 
     const limit = request.input("per_page", 5);
 
-    return Recipe.query().paginate(page, limit);
+    const recipes = await Recipe.query().paginate(page, limit);
+
+    return recipes.toJSON();
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
