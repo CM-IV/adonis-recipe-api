@@ -5,7 +5,7 @@ import { schema, rules } from "@ioc:Adonis/Core/Validator"
 
 export default class AuthController {
 
-    public async register({ request, response, auth }: HttpContextContract) {
+    public async register({ request, response }: HttpContextContract) {
 
         const userSchema = schema.create({
             
@@ -41,8 +41,6 @@ export default class AuthController {
 
         const user = await User.create(payload);
 
-        await auth.login(user);
-
         // Logger.info('User Details: ', {user: auth.user})
 
         return response.json(user);
@@ -54,7 +52,7 @@ export default class AuthController {
         const password = request.input('password')
     
         try {
-          const token = await auth.use("api").attempt(username, password, {
+          const bearer = await auth.use("api").attempt(username, password, {
 
             expiresIn: "1day"
 
@@ -62,7 +60,7 @@ export default class AuthController {
 
           return response.send({
             userId: auth.user!.id,
-            token
+            bearer
           });
         } catch {
           return response.badRequest("Credentials are invalid!");
