@@ -54,7 +54,7 @@ export default class AuthController {
         try {
           const bearer = await auth.use("api").attempt(username, password, {
 
-            expiresIn: "1day"
+            expiresIn: "120mins"
 
           });
 
